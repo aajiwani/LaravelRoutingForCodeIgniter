@@ -80,7 +80,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<code>application/controllers/Welcome.php</code>
 
 		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
+
+		<p>
+			<a href="<?php echo site_url(route('greet_someone', ['name' => 'CodeIgniter'])); ?>">Click here</a> to see how the new routes work
+			<br />
+			<a href="<?php echo site_url('/randomNum'); ?>">Click here</a> for the random number generation example
+			<br />
+			<a href="<?php echo site_url(route('greet_with_full_name', ['firstname' => 'John', 'lastname' => 'Doe'])); ?>">Click here</a> for greeting with full name example
+		</p>
 	</div>
+
+	
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
 </div>

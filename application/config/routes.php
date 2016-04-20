@@ -49,6 +49,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
-$route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+$route_config['default_controller'] = 'welcome';
+$route_config['404_override'] = '';
+$route_config['translate_uri_dashes'] = FALSE;
+
+// New Routes
+$routes['greet/(name:any)'] 					=	['as' => 'greet_someone', 'uses' => 'welcome@greet'];
+$routes['randomNum']							=	'welcome@generateRandomNumber';
+$routes['greet/(lastname:any)/(firstname:any)'] =	['as' => 'greet_with_full_name', 'uses' => 'welcome@greatWithFirstAndLastName'];

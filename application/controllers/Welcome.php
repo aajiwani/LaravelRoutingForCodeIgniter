@@ -20,6 +20,23 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
+		$this->load->helper('url');
 		$this->load->view('welcome_message');
+	}
+
+	public function greet($name)
+	{
+		echo "Hello " . $name;
+	}
+
+	public function greatWithFirstAndLastName($firstname, $lastname)
+	{
+		echo "Hey " . $firstname . "  " . $lastname . "<br />";
+		echo "See you can pass parameters as you wish, they would be passed to your controller via names";
+	}
+
+	public function generateRandomNumber()
+	{
+		echo "Here is a random number for you " . rand();
 	}
 }

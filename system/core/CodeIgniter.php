@@ -477,17 +477,44 @@ if ( ! is_php('5.4'))
 		}
 	}
 
-	if ($method !== '_remap')
-	{
-		$params = array_slice($URI->rsegments, 2);
-	}
-
 /*
  * ------------------------------------------------------
  *  Is there a "pre_controller" hook?
  * ------------------------------------------------------
  */
 	$EXT->call_hook('pre_controller');
+
+/*
+ * ----------------------------------------------------------------
+ *  Check for parameter names as per routes and method to be called
+ * ----------------------------------------------------------------
+ */
+
+	if (method_exists($RTR, 'verify_parameters'))
+	{
+		$verified = $RTR->verify_parameters();
+		if (!$verified)
+		{
+			throw new Exception('Unable to verify all the parameters supplied in the route, please check that class `' . $class . '` with method `' . $method . '` contains these params (' . $RTR->get_current_route_named_params() . ')');
+		}
+	}
+
+/*
+ * ----------------------------------------------------------------
+ *  Check for ordering of parameters as required by the function
+ * ----------------------------------------------------------------
+ */
+	if ($method !== '_remap')
+	{
+		if (method_exists($RTR, 'get_sorted_params'))
+		{
+			$params = $RTR->get_sorted_params(array_slice($URI->rsegments, 2));
+		}
+		else
+		{
+			$params = array_slice($URI->rsegments, 2);
+		}
+	}
 
 /*
  * ------------------------------------------------------
