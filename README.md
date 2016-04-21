@@ -12,6 +12,7 @@ Laravel Style routing capabilities for Code Igniter. It adds abstraction to the 
   $routes['greet/(name:any)']           = ['as' => 'greet_someone', 'uses' => 'welcome@greet'];
 ```
   * where Welcome is the Controller and greet is the Method
+  
 2. In code
 ```php
   $this->load->helper('named_routes');
