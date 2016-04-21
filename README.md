@@ -2,7 +2,7 @@
 Laravel Style routing capabilities for Code Igniter. It adds abstraction to the whole routing process.
 
 ## Motivation to use it ##
-1. In /application/config/routes.php
+* In /application/config/routes.php
 ```php
   $route_config['default_controller'] = 'welcome';
   $route_config['404_override'] = '';
@@ -13,7 +13,7 @@ Laravel Style routing capabilities for Code Igniter. It adds abstraction to the 
   // where Welcome is the Controller and greet is the Method
 ```
 
-2. In code
+* In code
 ```php
   $this->load->helper('named_routes');
 
