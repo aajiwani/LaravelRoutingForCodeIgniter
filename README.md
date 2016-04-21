@@ -1,6 +1,29 @@
 # LaravelRoutingForCodeIgniter
 Laravel Style routing capabilities for Code Igniter. It adds abstraction to the whole routing process.
 
+## Motivation to use it ##
+1. In /application/config/routes.php
+```php
+	$route_config['default_controller'] = 'welcome';
+	$route_config['404_override'] = '';
+	$route_config['translate_uri_dashes'] = FALSE;
+
+	// New Routes
+	$routes['greet/(name:any)'] 					=	['as' => 'greet_someone', 'uses' => 'welcome@greet'];
+```
+	* where Welcome is the Controller and greet is the Method
+2. In code
+```php
+	$this->load->helper('named_routes');
+
+	redirect(site_url(
+		route('greet_someone', [
+			'name'	=> 'John'
+		]);
+	));
+```
+
+
 ### Steps to let the magic begin ###
 1. Replace snippets under /system/core/CodeIgniter.php
 	* Line (480 - 484)
@@ -27,7 +50,7 @@ Laravel Style routing capabilities for Code Igniter. It adds abstraction to the 
 		* P.S. You don't need to use numbers as variable orders like $1, $2 anymore
 		* instead named params would supply required variables to method accordingly, I am not joking look at the example
 4. To use routes helper to form the routes on the go here is the way
-	* route('greet_with_full_name', ['firstname' => 'John', 'lastname' => 'Doe'];
+	* route('greet_with_full_name', ['firstname' => 'John', 'lastname' => 'Doe']);
 		* this will get the route with `as` key as `greet_with_full_name`
 		* replace the named variables with parameters supplied i.e. firstname and lastname accordingly
 		* You can have a look in the example to see how it works
