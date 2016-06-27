@@ -244,7 +244,6 @@ class CI_Router
     public function verify_parameters()
     {
         $prmList = $this->named_params;
-        $result = true;
         if (!empty($prmList))
         {
             $funcArgs = [];
@@ -262,18 +261,15 @@ class CI_Router
                 $routeArgs[] = $prm;
             }
 
-            $contains = count(array_intersect($routeArgs, $funcArgs)) == count($routeArgs);
+            $contains = count(array_intersect($routeArgs, $funcArgs)) >= count($routeArgs);
             if ($contains)
             {
                 $this->named_params_func = $funcArgs;
             }
-            else
-            {
-                $result = false;
-            }
+            return $contains;
         }
 
-        return $result;
+        return true;
     }
 
     // --------------------------------------------------------------------
@@ -310,7 +306,10 @@ class CI_Router
         $sortedParams = [];
         foreach ($this->named_params_func as $funcParamName)
         {
-            $sortedParams[$funcParamName] = $paramsWithValues[$funcParamName];
+            if (array_key_exists($funcParamName, $paramsWithValues))
+            {
+                $sortedParams[$funcParamName] = $paramsWithValues[$funcParamName];
+            }
         }
 
         return $sortedParams;
@@ -478,11 +477,12 @@ class CI_Router
             $val = str_replace('@', '/', $val);
             $prmNames = [];
 
-            if (preg_match_all('/\(([^:]*):(?:num|any)\)/i', $key, $matches) !== FALSE)
+            if (preg_match_all('/\(([^:]*):(num|any)\)/i', $key, $matches) !== FALSE)
             {
                 $count = 1;
                 $prms = $matches[0];
                 $prmNames = $matches[1];
+                $prmTypes = $matches[2];
 
                 if (count($prmNames) !== count($prms))
                     throw new Exception('Not all parameters in the given route contain names. Please refer to route: ' . $key);
@@ -499,7 +499,7 @@ class CI_Router
                             throw new Exception('Route must use parameters with name. Please check route: ' . $key);
                         }
 
-                        $key = str_replace($prmNames[$i], '', $key);
+                        $key = str_replace($prmNames[$i] . ':' . $prmTypes[$i], ':' . $prmTypes[$i], $key);
                         $val .= '/$' . $count++;
                     }
                 }
